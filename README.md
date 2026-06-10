@@ -1,5 +1,24 @@
-Quadra - 基於 Ludus Design 原始專案的本地建置版本
-=====================================================
+Quadra - Quadra Revival Project
+================================
+
+專案歷史與背景 / Project History
+---------------------------------
+
+Quadra 是一款極具傳奇色彩的硬核多人連線方塊益智遊戲。它最初由獨立軟體工作室 **Ludus Design**（核心開發者包括 Pierre Phaneuf 與 Remi Veilleux 等人）於 1999 年作為商業共享軟體（Shareware）發表。憑藉著在當年極為領先的流暢網際網路對戰、獨特的重力物理與旋轉機制，Quadra 迅速在獨立遊戲界打響名號，並在 2008 年前後成為許多社群、學校與網咖舉辦連線比賽的首選神作。
+
+隨著商業環境變遷，Ludus Design 於 2000 年 8 月做出了一個慷慨且具遠見的決定：將 Quadra 的原始碼完全以 LGPL 條款開源。此後，專案交由全球開源社群共同維護，並陸續完成了 Linux、macOS 等跨平台移植。然而，隨著原作者步入主流科技巨頭（如 Google、Ubisoft 等）深耕，加上官方版權環境限縮與中央伺服器（Qserv）停機，這款經典作品逐漸淡出了大眾視野，封存於歷史的檔案庫中。
+
+本專案（**Revival Project**）旨在 2026 年重新喚醒這份珍貴的開源記憶。我們將透過現代化的底層驅動（SDL2/SDL3）、建置系統（CMake）以及重構現代化中央伺服器，讓這款曾陪伴無數人度過熱血競技夜晚的經典遊戲，在現代作業系統甚至是網頁端（WebAssembly）再度重現光芒。
+
+---
+
+*Quadra is a legendary hardcore multiplayer puzzle game. Originally released in 1999 as shareware by independent studio **Ludus Design** (core developers: Pierre Phaneuf, Remi Veilleux, and others), it quickly gained fame for its ahead-of-its-time smooth online multiplayer, unique gravity physics, and rotation mechanics. By 2008, it had become a cult classic for LAN competitions in communities, schools, and internet cafes.*
+
+*In August 2000, Ludus Design made the generous and visionary decision to open-source Quadra under the LGPL license. The global open-source community continued its development, porting it to Linux, macOS, and beyond. However, as the original authors moved on to tech giants (Google, Ubisoft, etc.), and with the shutdown of the central server (Qserv), this classic faded from the spotlight.*
+
+*This **Revival Project** aims to rekindle this precious open-source memory in 2026. With modern backends (SDL2/SDL3), a CMake build system, and a rebuilt central server, we intend to bring this timeless competitive gem back to modern operating systems — and even the web (WebAssembly).*
+
+---
 
 本專案基於 Quadra (https://github.com/quadra-game/quadra) 原始碼，做了以下修改：
 
