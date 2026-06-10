@@ -10,59 +10,112 @@ Quadra - 基於 Ludus Design 原始專案的本地建置版本
 環境需求
 --------
 
-- Windows 10/11 x64
-- Visual Studio 2022 (Community 版即可)
-- CMake 3.20+
-- [vcpkg](https://github.com/microsoft/vcpkg) (安裝於 `C:\Users\${USERNAME}\vcpkg` 或自訂路徑)
+### 安裝 Visual Studio 2022
 
-透過 vcpkg 安裝的依賴套件：
+下載 [Visual Studio 2022 Community](https://visualstudio.microsoft.com/zh-hant/vs/community/) 並安裝。
+安裝時請勾選「**使用 C++ 的桌面開發**」工作負載。
 
+### 安裝 CMake
+
+下載 [CMake](https://cmake.org/download/)（建議 3.20 以上版本），安裝時選擇「Add CMake to the system PATH」。
+
+### 安裝 vcpkg
+
+```powershell
+cd C:\
+git clone https://github.com/microsoft/vcpkg.git
+cd vcpkg
+.\bootstrap-vcpkg.bat
 ```
-vcpkg install sdl2:x64-windows sdl2-ttf:x64-windows libpng:x64-windows zlib:x64-windows boost-filesystem:x64-windows boost-system:x64-windows
+
+### 透過 vcpkg 安裝依賴套件
+
+```powershell
+cd C:\vcpkg
+.\vcpkg install sdl2:x64-windows libpng:x64-windows zlib:x64-windows boost-filesystem:x64-windows boost-system:x64-windows
 ```
 
 建置步驟
 --------
 
+> 以下命令在 PowerShell 7+ 中執行。
+
 **1. 設定 CMake**
 
-從 `quadra/` 目錄執行（根據你的 vcpkg 路徑調整 `CMAKE_PREFIX_PATH`）：
+從專案根目錄（`quadra/`）執行：
 
 ```powershell
 mkdir build
 cd build
 cmake .. -G "Visual Studio 17 2022" -A x64 `
-  -DCMAKE_PREFIX_PATH="C:\Users\$env:USERNAME\vcpkg\installed\x64-windows"
+  -DCMAKE_PREFIX_PATH="C:\vcpkg\installed\x64-windows"
 ```
 
-**2. 編譯**
+> 如果 vcpkg 安裝在其他路徑，請調整 `CMAKE_PREFIX_PATH`。
+
+**2. 編譯主程式**
 
 ```powershell
 cmake --build . --config Release
 ```
 
-這會先產生 `wadder.exe`（資源打包工具），再用它打包 `quadra.res`，最後編譯出 `quadra.exe`。
+這一步會依序：
+- 編譯 `wadder.exe`（資源打包工具）
+- 執行 wadder 產生 `quadra.res`（遊戲資源檔）
+- 編譯 `quadra.exe`
 
 **3. 執行**
-
-將必要的 DLL 複製到執行檔所在目錄，或將 vcpkg 的 `bin` 目錄加入 `PATH`：
-
-```powershell
-# 從 vcpkg 複製 DLL（一次性）
-copy C:\Users\$env:USERNAME\vcpkg\installed\x64-windows\bin\SDL2.dll .\Release\
-copy C:\Users\$env:USERNAME\vcpkg\installed\x64-windows\bin\libpng16.dll .\Release\
-copy C:\Users\$env:USERNAME\vcpkg\installed\x64-windows\bin\z.dll .\Release\
-copy C:\Users\$env:USERNAME\vcpkg\installed\x64-windows\bin\boost_filesystem-vc143-mt-x64-1_91.dll .\Release\
-```
-
-切換到 Release 目錄並執行：
 
 ```powershell
 cd Release
 .\quadra.exe
 ```
 
-`quadra.res` 資源檔會自動產生於 `build/` 目錄下，quadra.exe 會在執行時從所在目錄尋找該檔案。
+如果提示缺少 DLL，將 vcpkg 的 DLL 複製到 Release 目錄：
+
+```powershell
+copy C:\vcpkg\installed\x64-windows\bin\SDL2.dll .\Release\
+copy C:\vcpkg\installed\x64-windows\bin\libpng16.dll .\Release\
+copy C:\vcpkg\installed\x64-windows\bin\z.dll .\Release\
+copy C:\vcpkg\installed\x64-windows\bin\boost_filesystem-vc143-mt-x64-1_91.dll .\Release\
+```
+
+Portable 版本建置
+-----------------
+
+Portable 版本可將所有依賴打包到單一目錄，無需安裝任何執行環境即可執行。
+
+**1. 先完成上述建置步驟**（確保 `build\Release\quadra.exe` 已產生）。
+
+**2. 手動產生 quadra.res**（如果編譯時未自動產生）：
+
+```powershell
+cd build
+.\Release\wadder.exe ..\ .\quadra.res ..\resources.txt
+```
+
+> wadder.exe 需要 SDL2.dll 和 boost_filesystem DLL，可先複製到 `build\Release\` 下。
+
+**3. 建立 portable 目錄並複製所有必要檔案**：
+
+```powershell
+mkdir ..\portable
+copy .\Release\quadra.exe ..\portable\
+copy .\quadra.res ..\portable\
+copy C:\vcpkg\installed\x64-windows\bin\SDL2.dll ..\portable\
+copy C:\vcpkg\installed\x64-windows\bin\libpng16.dll ..\portable\
+copy C:\vcpkg\installed\x64-windows\bin\z.dll ..\portable\
+copy C:\vcpkg\installed\x64-windows\bin\boost_filesystem-vc143-mt-x64-1_91.dll ..\portable\
+```
+
+**4. 執行 portable 版本**：
+
+```powershell
+cd ..\portable
+.\quadra.exe
+```
+
+`portable\` 目錄可複製到任何 Windows 10/11 x64 電腦上直接執行。若目標電腦沒有 VC++ 執行階段，需一併安裝 [Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe)。
 
 檔案結構
 --------
