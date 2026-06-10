@@ -1,0 +1,97 @@
+/* -*- Mode: C++; c-basic-offset: 2; tab-width: 2; indent-tabs-mode: nil -*-
+ * 
+ * Quadra, an action puzzle game
+ * Copyright (C) 1998-2000  Ludus Design
+ * 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
+#ifndef _CONFIG_H
+#define _CONFIG_H
+
+/* Version numbers */
+#define VERSION_MAJOR @PROJECT_VERSION_MAJOR@
+#define VERSION_MINOR @PROJECT_VERSION_MINOR@
+#define VERSION_PATCHLEVEL @PROJECT_VERSION_PATCH@
+#define VERSION_EXTRA ""
+#define VERSION_STRING "@PROJECT_VERSION@\0"
+
+/* Define to 1 if you have the <arpa/inet.h> header. */
+#cmakedefine HAVE_ARPA_INET_H 1
+
+/* Define to 1 if you have the <fcntl.h> header. */
+#cmakedefine HAVE_FCNTL_H 1
+
+/* Define to 1 if you have the <limits.h> header. */
+#cmakedefine HAVE_LIMITS_H 1
+
+/* Define to 1 if you have the <memory.h> header. */
+#cmakedefine HAVE_MEMORY_H 1
+
+/* Define to 1 if you have the <netdb.h> header. */
+#cmakedefine HAVE_NETDB_H 1
+
+/* Define to 1 if you have the <netinet/in.h> header. */
+#cmakedefine HAVE_NETINET_IN_H 1
+
+/* Define to 1 if you have the <stdint.h> header. */
+#cmakedefine HAVE_STDINT_H 1
+
+/* Define to 1 if you have the <stdlib.h> header. */
+#cmakedefine HAVE_STDLIB_H 1
+
+/* Define to 1 if you have the <string.h> header. */
+#cmakedefine HAVE_STRING_H 1
+
+/* Define to 1 if you have the <sys/ioctl.h> header. */
+#cmakedefine HAVE_SYS_IOCTL_H 1
+
+/* Define to 1 if you have the <sys/socket.h> header. */
+#cmakedefine HAVE_SYS_SOCKET_H 1
+
+/* Define to 1 if you have the <sys/time.h> header. */
+#cmakedefine HAVE_SYS_TIME_H 1
+
+/* Define to 1 if you have the <sys/timeb.h> header. */
+#cmakedefine HAVE_SYS_TIMEB_H 1
+
+/* Define to 1 if you have the <unistd.h> header. */
+#cmakedefine HAVE_UNISTD_H 1
+
+/* Define to 1 if you have the <winsock.h> header. */
+#cmakedefine HAVE_WINSOCK_H 1
+
+/* Define to 1 if you have the <zlib.h> header. */
+#cmakedefine HAVE_ZLIB_H 1
+
+/* Define to 1 if you have the <png.h> header. */
+#cmakedefine HAVE_PNG_H 1
+
+/* Define to 1 if you have the <pwd.h> header. */
+#cmakedefine HAVE_PWD_H 1
+
+/* Define to 1 if you have the <sys/stat.h> header. */
+#cmakedefine HAVE_SYS_STAT_H 1
+
+/* Define to 1 if you have the <sys/types.h> header. */
+#cmakedefine HAVE_SYS_TYPES_H 1
+
+/* Define to 1 if you have the <io.h> header. */
+#cmakedefine HAVE_IO_H 1
+
+/* Define to 1 if you have the <mmsystem.h> header. */
+#cmakedefine HAVE_MMSYSTEM_H 1
+
+#endif

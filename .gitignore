@@ -1,0 +1,14 @@
+build/
+build2/
+portable/
+run/
+*.exe
+*.res
+*.dll
+*.obj
+*.pdb
+*.ilk
+*.vcxproj*
+*.sln
+CMakeCache.txt
+CMakeFiles/

@@ -1,0 +1,600 @@
+Joueur
+�2 D�marrer
+Quadra
+H�ros
+Score
+Lignes
+Niveau
+T'es dans la liste!!
+"Les meilleurs reposent ici..." - Rem, 1999
+"Cr�er ou joindre, l� est la question" - Rem, 1999
+�2 Cr�er une partie
+�2 Joindre la partie s�lectionn�e
+�2 Rafra�chir parties locales
+Liste des serveurs:
+Joueurs dans la partie s�lectionn�e:
+Retour �0
+S�lectionnez un type de connexion:
+Mode local (pas de r�seau)
+TCP/IP Internet
+Lent
+Normal
+Rapide
+Appuyez sur une touche...
+Enfoncez la touche pour gauche...
+Droite...
+Tourner sens anti-horaire...
+En bas...
+Tourner sens horaire...
+Vous venez de jouer avec une version non enregistr�e.
+En fait, vous avez jou� pendant %i heures et %i minutes!
+En fait, vous avez jou� pendant %i minutes %i secondes.
+Vous avez seulement pass� %i secondes � l'essayer.
+Est-ce que c'�tait int�ressant? Ou m�me fabuleux?
+
+
+
+
+
+
+
+
+
+N'oubliez pas de copier ce jeu � tout le monde!
+
+Nous avons �galement une version %s compatible avec la v�tre!
+Alors tenez-vous � l'aff�t des jeux de Ludus Design, et rappelez-vous:
+On fait des jeux hots, pour vous!
+Merci d'avoir t�l�charg� Quadra!
+
+
+
+
+
+
+
+
+
+
+
+
+
+L'�quipe de Quadra:
+R�mi Veilleux: Programmation, design, graphisme
+St�phane Lajoie: Programmation
+Pierre Phaneuf: Conversion Linux
+Notre site Web:
+https://github.com/quadra-game/quadra
+Ceci est une version d�mo gratuite et distribuable.
+Cliquez sur 'Retour �0' pour revenir au menu principal
+Quadra(mc)  Ludus Design
+Utilise le "Universal Game Skelton(mc)"
+VERSION NON ENREGISTR�E. S.V.P. enregistrez si vous aimez ce jeu!
+Version gratuite: distribu�e sous les termes de la GNU LGPL
+Version num�ro: %i
+Avertissement: Impossible d'initialiser la carte de son
+Fichier de configuration inexistant. Il sera cr��.
+Avertissement: Mauvaise version du fichier de configuration. Il sera effac�.
+Appuyez sur quelque chose pour continuer...
+Quadra, Universal Game Skelton et le logo Ludus Design sont des marques
+de commerce de Ludus Design, Copyright (C) 1998-2008. Tous droits r�serv�s.
+Quadra - Statistiques de fin de partie
+Pour l'�quipe %s:
+Les statistiques ne sont disponibles que dans la version compl�te.
+Cliquez sur 'Retour �0' pour retourner au menu
+D�marre %s
+Affiche joueurs
+Info blocs
+Info lignes
+Choisir th�me
+Fen�tre Chat
+Cette version d�mo envoie des lignes � %s!
+Fermer
+%s envoie %i ligne%s.
+%s a joint l'�quipe %s.
+Orange
+Turquoise
+Rouge
+Pourpre
+Jaune
+Vert
+Bleu
+%s a tr�pass�.
+Score:
+Lignes:
+Niveau:
+Morts:
+Frags:
+Cr�ation d'une partie
+�2 Cr�er la partie
+Joindre une partie
+Simple
+Double
+Triple
+Quad
+5-lignes
+6-lignes
+7-lignes
+8-lignes
+9-lignes
+10-lignes
+11-lignes
+12-lignes
+13-lignes
+14-lignes
+Plus!
+Total:
+Double! %i pts
+Triple! %i pts
+Quad! %i pts
+%i-lignes! %i pts
+<Inconnu>
+Choisir le th�me:
+Du niveau %i
+Choisir l'�quipe:
+Joueur(s) dans l'�quipe:
+Equipe %s:
+Aucun joueur � date...
+De:
+A:
+Tous
+Ou taper ici l'adresse IP � v�rifier:
+Cherche du nom sur l'Internet. Ceci peut prendre quelques minutes...
+�2 Annuler
+Impossible de trouver ce nom. V�rifier que vous l'avez bien �crit.
+Nom:
+En attente pour joindre...
+Num�ro de port TCP/IP (1024-65535):
+Connexion en cours avec la partie %s...
+L'administrateur de partie a refus� votre demande.
+Appuyez sur 'Retour �0' et s�lectionnez une autre partie.
+Connect�. Attente de la r�ponse du serveur...
+Partie paus�e par %s.
+le serveur
+%s a fragg� %s!
+Partie %s cr��e.
+Partie %s jointe.
+Recherche d'un serveur Quadra � l'adresse %s...
+Le serveur ne r�pond pas. Vous pouvez continuer d'attendre ou annuler l'op�ration.
+L'erreur de r�seau suivante est survenue:
+Si l'erreur persiste, contactez notre support technique par e-mail.
+Vous ne pourrez pas jouer en r�seau par Internet.
+Vous pouvez entrer directement l'adresse TCP/IP du serveur.
+Impossible d'�tablir la connexion au serveur. Essayez une autre adresse r�seau.
+Impossible de cr�er le serveur. V�rifiez votre configuration r�seau.
+Impossible de cr�er le serveur. Red�marrez l'ordinateur et essayez de nouveau.
+Fonctions r�seau
+Ferme joueur
+Ferme connexion
+Accepte joueurs
+Accepte connexions
+Oui
+Non
+�limine ce joueur
+%s a �t� �limin� par le serveur!
+Vous avez �t� refus�.
+Essayez un autre serveur.
+�limine connexion
+S�lectionnez le mode de musique DC:
+Pas de musique
+Auto-change de piste
+Joue toutes les pistes
+Options
+(Vous devez avoir le m�me port pour vous connecter � un autre ordinateur)
+Comment jouer?
+�2 Continuer
+Bonjour et bienvenue dans ce tuteur interactif.
+Vous pourrez quitter et retourner au menu principale � n'importe quel
+moment en appuyant sur 'Echap'. Pour passer � la suite, vous pouvez
+cliquez sur le mot '�2 Continuer' en bas ou appuyez sur 'Retour'.
+
+Quadra est essentiellement un jeu de logique et de vitesse. Plus vous
+jouez rapidement, plus vous �tes en mesure "d'attaquer" vos adversaires.
+En plus, vous obtenez davantage de points en fonction de la vitesse de
+votre jeu.
+
+Allons voir un peu les �l�ments du jeu...
+Pour commencer, il faut s�lectionner
+un joueur parmi les 3 d�finis dans le
+menu "Configurer joueur". Il suffit
+cliquer sur le nom et la partie
+d�bute automatiquement.
+Maintenant que la partie est commenc�,
+plusieurs informations sont apparues.
+A gauche, des compteurs vous indiquent
+le nombre de blocs qui ont �t� d�pos�s
+depuis le d�but de la partie.
+A droite, des compteurs vous indiquent
+le nombre de lignes que vous avez fait
+au cours de la partie. Nous reviendrons
+sur ce sujet un peu plus tard.
+En bas de l'�cran de jeu ce situent les
+diverses informations telles que:
+le pointage actuel, le nombre de lignes
+et le niveau de difficult�.
+Compl�tement en haut, vous pouvez voir
+les 3 prochains blocs qui suivront
+lorsque vous aurez d�pos� le bloc actuel.
+Celui qui est au centre et qui est plus
+grand repr�sente votre prochain bloc.
+Au centre, c'est votre terrain de jeu.
+C'est � l'int�rieur de cette zone que
+vous aurez � manoeuvrer les blocs afin
+de faire des lignes compl�tes.
+
+Pour contr�ler le bloc, vous devez
+d�finir les touches dans le menu
+"Configurer joueur". Les contr�les
+sont simples: d�placement gauche et
+droite, d�placement vers le bas, et
+rotations.
+Notez que dans le bas de cette zone,
+directement en dessous de votre bloc
+se trouve une "ombre" de couleur
+sombre. Celle-ci sert � aligner vos
+d�placement afin de pr�voir � quel
+endroit d�poser votre bloc. Vous
+pourrez activer ou d�sactiver cette
+option dans le menu "Configurer
+joueur".
+Maintenant, voyons un peu comment se d�roule
+le jeu en d�posant quelques blocs. Ceux qui
+connaissent d�j� ce type de jeu connaissent donc
+la base de Quadra. Pour les autres, il vous
+restera � maitriser ces techniques pour ensuite
+passer aux choses s�rieuses.
+Le principe de base est simple:
+d�pos� les blocs le plus bas possible
+et tenter des les emboiter afin de ne
+pas laisser de "trou" entre eux.
+Quand vous avez une ligne compl�te,
+celle-ci s'efface et tout les blocs
+qui �taient au-dessus tombent dans
+l'espace qui s'est lib�r�.
+Regardez attentivement: le bloc qui
+va �tre d�pos� ici va compl�ter une
+ligne enti�re. Vous pouvez le
+constatez en regardant l'ombre du
+bloc qui s'emboite entre les autres.
+La ligne qui vient d'�tre compl�t�e
+s'appelle un "simple" car ce n'�tait
+qu'une seule ligne. Avec l'exp�rience,
+vous pourrez faire des doubles,
+triples, quadruples, et m�me plus!
+Regardons un autre exemple...
+Attention, si vous remarquez bien,
+ce bloc devrait nous donner un
+quadruple car il compl�te 4 lignes
+d'un seul coup!
+Le mot qui s'�l�ve dans l'�cran
+sert � mentionner que vous venez
+de faire un bon coup.
+
+Nettoyons un peu cette aire de jeu...
+Un autre petit "quad", simplement
+fait en glissant une barre verticale
+dans la colonne libre.
+Maintenant, passons aux choses s�rieuses: les
+r�actions en cha�ne. Gr�ce � ces r�actions, vous
+pouvez faire plus que 4 lignes d'un coup. Etant
+donn� que le plus long bloc n'a que 4 unit�s de
+hauteur (la barre verticale), vous devrez donc
+utiliser une astuce suppl�mentaire. Il s'agit de
+positionner des blocs en pr�vision de les faire
+tomber plus tard, afin qu'ils compl�tent des
+lignes � leur tour, et ainsi de suite.
+Voici comment.
+
+Les blocs dans Quadra sont attir�s par la
+gravit�, donc vers le bas. Cependant, ils sont
+solides et il faut les "casser" pour pouvoir
+les faire tomber et causer une r�action en
+cha�ne.
+Nous allons vous montrer un exemple avec la
+colonne de gauche, en y d�posant 2 barres
+verticales, que nous ferons tomber par la suite
+afin de faire plusieurs lignes (et par
+cons�quent, beaucoup de points!)
+Vous voyez le bloc en "L" rose? Il
+sert � emp�cher la barre verticale de
+tomber dans le trou. Il faudra le
+casser pour d�clencher notre r�action.
+Pour se faire, il s'agit d'�liminer la
+ligne horizontale qui se trouve � la
+base du "L"...
+Observez bien. Le "L" rose qui est
+d�pos� ici � droite va nous donner
+une ligne compl�te. Cette ligne est
+exactement celle qu'il nous faut
+pour casser l'autre "L" rose � gauche
+qui sert � retenir nos 2 barres
+verticales.
+Observons au ralenti...
+Et voil�! 7 lignes d'un seul coup!
+Vous noterez que th�oriquement nous
+aurions pu faire 10 lignes. (Car nous
+avions 2 barres verticales plus un
+morceau de "L") mais il y avait des
+trous dans notre construction.
+L'image de fond a changer: ceci
+indique que nous avons changer de
+niveau en m�me temps.
+Il ne vous reste qu'� vous pratiquez. Voici
+d'autres informations pertinentes:
+- Vous changez de niveau de difficult� � chaque
+  fois que vous faites 15 lignes. Le jeu sera
+  donc de plus en plus rapide.
+- Vous perdez la partie quand vos blocs atteignent
+  le centre en haut de l'aire de jeu. Cependant,
+  vous pouvez avoir des blocs qui d�bordent sur
+  les c�t�s sans probl�me.
+Vous pouvez vous pratiquer en jouant des parties solo. Mais l'essence du
+jeu r�side dans la comp�tition avec vos amis. Le mode multi-joueur est
+similaire au mode solo. Cependant, vous pouvez continuer de jouer m�me
+si vous �tes "mort", sans perdre vos totaux de lignes et de blocs. Cela
+ne fait qu'augmenter votre compteur de "mort". De plus, chaque fois que
+vous ferez un "double" ou plus, vous attaquerez vos adversaires! Ceci
+est fait en envoyant des lignes dans le bas de leur �cran, les for�ant
+� r�agir, sans quoi ils seront envahis jusqu'au cou.
+
+Vous s�lectionnez votre couleur, ce qui d�signe votre �quipe. D'ailleurs,
+vous pourrez voir l'�quipe qui vous a envoy� des lignes et regardant la
+couleur des lignes re�ues: elles seront de la couleur de l'�quipe en
+question.
+
+Ceci met fin � ce tuteur. Allez vous pratiquer un peu!
+Connect�. Chargement des informations de la partie...
+Affiche:
+Frags & Morts
+Score
+Lignes
+Blocs
+Impossible de joindre car
+votre nom est d�j� utilis�.
+*** %s a d�pos� un bloc invalide!***
+Tester "ping"
+Joueur r�seau observ�
+(m.a.j. par seconde)
+Ping en milli-seconde:
+Moyenne:
+Observe:
+Pleine grandeur
+4 � la fois
+Observe s�lectionn�s
+Quitte �0
+�2 Consulter info IP
+Information IP de cet ordinateur
+Nom de l'h�te:
+Adresse(s) IP:
+Info IP
+Turbo
+Version r�seau num�ro: %i
+* ancienne version *
+* nouvelle version *
+Continue %s
+Tu� %s!
+Canevas Vide!!
+L'ordinateur h�te n'est pas un serveur Quadra.
+Veuillez essayer un autre serveur, ou changer votre num�ro de port.
+Le serveur Quadra utilise une version ant�rieure (%i) � la v�tre.
+Ce serveur devra �tre mis � jour � votre version %i.
+Le serveur Quadra utilise une version plus r�cente (%i) que la v�tre.
+Veuillez consulter notre site web pour les mises � jour 'quadra-game.github.io'.
+Carnet d'adresses
+Connecter
+Recherche de %s...
+Type:
+Partie libre
+Dernier survivant
+La derni�re �quipe vivante marque un point, puis �a recommence.
+Tuez vos adversaires et ressuscitez si vous crevez.
+Changement de niveau:
+Aux 15 lignes
+Aucun
+D�buter le jeu au niveau:
+%s est le gagnant!
+Quadra - Ligne de commande
+
+
+
+
+
+
+
+Frags
+Morts
+Visionner
+Vitesse lente
+Vitesse rapide
+Nombre de lignes pour attaquer:
+
+Recommencer
+%s a quitt� la partie.
+�2 La partie d�bute dans 5 secondes...
+�2 C'est parti!
+�2 Le serveur a �t� d�connect�.
+Rejouer la derni�re partie solo:
+�2 Fin de partie
+�2 La partie est termin�e.
+Impossible de joindre:
+Cette partie est termin�e.
+La partie se termine lorsque:
+Jamais
+Frags
+Temps
+frags.
+minutes.
+Vitesse du curseur de la souris (1-255):
+�2 Carnet d'adresses
+�2 Rafra�chir parties sur Internet
+Recherche des parties publiques sur Internet...
+Publique:
+�2 Enregistre ces param�tres
+Adresse du serveur de partie publique:
+Options avanc�es:
+Adresse de serveur de partie invalide.
+Veuillez retourner au menu "Option" et v�rifiez.
+Adresse par d�faut: %s
+Quadra version %s
+NON ENREGISTR�
+Aucun serveur de partie Quadra � cette adresse.
+Le serveur peut �tre en panne, ou l'adresse n'est pas un serveur Quadra.
+�2 R�ponse invalide du serveur de partie.
+�2 Abandon. Partie non publique.
+�2 Erreur r�seau en cherchant le serveur de partie: %s.
+Comment enregistrer Quadra
+Quadra est gratuitement et librement copiable. Vous devez enregistrer pour
+nous encourager � produire d'autres jeux de qualit� et pour assurer
+le support de Quadra. Pour utilisez le paiement par carte de cr�dit,
+allez visiter cette adresse Internet:
+
+
+
+http://www.ludusdesign.com/quadra/register_fr.html
+Entrez votre pr�nom et nom, et le mot de passe que vous avez obtenu:
+�2 Cliquer ici pour l'enregistrement
+Merci beaucoup! Amusez-vous bien!
+Choisissez la langue d'affichage:
+Anglais
+Fran�ais
+Sylvain Fortin: Colle
+V�ronique Bruneau: Graphisme
+Nom:
+Mot de passe:
+Mot de passe invalide. S.V.P. v�rifiez les renseignements et r�essayez...
+%i secondes restantes!
+�2 Change page
+Param�tre manquant pour ligne de commande '%s'
+
+
+Mise � jour du serveur de partie publique
+Un instant S.V.P...
+
+
+
+Records mondiaux
+�2 Valider
+Connexion accept�e de [%s]
+Connexion ferm�e de [%s]
+Appuyez sur �2 Valider pour v�rifier les pointages mondiaux.
+Connexion en cours. Veuillez patientez...
+Erreur: le serveur a r�pondu [%s].
+Transfert compl�t� avec succ�s.
+Connect�. Transfert en cours. %i octets.
+Transfert interrompu par l'usager.
+Aucun serveur Quadra n'a pu �tre trouv�.
+[Sans nom]
+�tat:
+Pas commenc�e
+En cours
+Termin�e
+TCP/IP R�seau local (LAN)
+
+
+
+%s est de retour!
+La connexion avec le serveur a �t� rompue.
+Essayez de connecter de nouveau, ou tentez un autre serveur.
+�2 Visionner d�mo
+La centrale de d�mo
+R�pertoire en cours:
+Taille du fichier:
+Date & heure:
+Version:
+Dur�e:
+Type de partie:
+Termine:
+Le fichier '%s' n'est pas une d�mo Quadra.
+Mode solo
+Inconnu
+Jamais
+Apr�s %i frags
+Apr�s %i minutes
+Joueurs
+�2 Demo termin�e
+Enregistre la partie (demo):
+�2 Impossible d'enregistrer sous le nom '%s'
+�2 Enregistrement de la partie dans '%s'
+Nom de partie:
+�quipe %s
+%i minutes
+%i secondes
+�2 Auto-observe
+Impossible de joindre:
+La partie est pleine!
+L'�quipe %s
+ est � %i frags de la victoire!
+Egalit�!
+ est � 1 frag de la victoire!
+Canevas vide: %s envoie %i lignes!
+Canevas vide: %s envoie 1 ligne!
+Patate chaude
+Effacez des lignes pour vous d�barrasser de la patate chaude!
+
+
+
+Choisir handicap:
+D�butant
+Apprenti
+Normal
+Ma�tre
+Grand Ma�tre
+Effacer d�mo
+ gagne la partie!
+ re�oit la patate chaude!
+Effacer %i lignes.
+Paisible
+Points
+Pas de lignes envoy�es, pas de frags, pas de violence.
+points.
+lignes.
+Apr�s %i points
+Apr�s %i lignes
+frag
+point
+ligne
+ est � %i %s de la victoire!
+Lignes
+Canevas vide: %s efface %i lignes!
+Canevas vide: %s efface 1 ligne!
+%s efface %i ligne%s.
+ se d�barrasse de la patate chaude!
+�2 Red�marre la partie
+�2 Retourne dans la partie
+But (%s%s):
+Vous recevez la
+       patate chaude!
+Vous vous d�barrassez
+    de la patate chaude!
+
+
+gdesc_fr.txt
+Aveugle
+En attente pour la
+    prochaine manche...
+Appuyez sur une
+ touche pour repartir.
+%s gagne la manche!
+Personne ne
+�2 Impossible de tracer
+�2 Trace de la partie
+Points par min.
+Blocks par min.
+Tourne double...
+D�pose imm�diatement...
+Sprint
+Choisir le mode de jeu:
+Normal
+Sprint (5 minutes)
+Attaque moy.
+Combo moy.
+Rang
+Vitesse
+Combos
+Serveur proxy HTTP:
+Chinois (Traditionnel)
+Chinois (Simplifi\u00E9)
+
+
+
+
