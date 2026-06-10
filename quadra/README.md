@@ -1,113 +1,91 @@
-Quadra Source Release
-=====================
+Quadra - 基於 Ludus Design 原始專案的本地建置版本
+=====================================================
 
-This is the Quadra source release.
+本專案基於 Quadra (https://github.com/quadra-game/quadra) 原始碼，做了以下修改：
 
-Requirements
-------------
+- 移除語言選單中的簡體/繁體中文選項，僅保留 English / French
+- 使用 CMake + Visual Studio 2022 建置系統
+- 使用 vcpkg 管理第三方依賴
 
- - a C++ compiler (gcc was tested on Linux and Visual C++ on Windows)
- - zlib (http://www.info-zip.org/pub/infozip/zlib/)
- - libpng (http://www.libpng.org/pub/png/libpng.html)
- - SDL 2.0 (http://www.libsdl.org/)
- - Boost::System and Boost::Filesystem libraries
+環境需求
+--------
 
-On Ubuntu, the following packages are needed to build:
+- Windows 10/11 x64
+- Visual Studio 2022 (Community 版即可)
+- CMake 3.20+
+- [vcpkg](https://github.com/microsoft/vcpkg) (安裝於 `C:\Users\${USERNAME}\vcpkg` 或自訂路徑)
 
- - make
- - g++
- - libsdl2-dev
- - libpng12-dev
- - libboost-dev
- - libboost-filesystem-dev
+透過 vcpkg 安裝的依賴套件：
 
-Auto-update feature
--------------------
+```
+vcpkg install sdl2:x64-windows sdl2-ttf:x64-windows libpng:x64-windows zlib:x64-windows boost-filesystem:x64-windows boost-system:x64-windows
+```
 
-Some users have expressed privacy and performance concerns about the
-auto-update feature. This auto-update is implemented by fetching a small file
-using HTTP, no more than once per day. The information sent to the server is
-very limited: your IP address (from the connection itself) and the Quadra
-version you are currently using (from the HTTP User-Agent header). At the time
-of this writing, the Quadra team does not even have access to the logs where
-this information is stored (this file is hosted by Google Code). In the
-interest of full disclosure, similar information is sent to Qserv when using
-the Internet multi-player mode, with a few more technical informations (such
-as the platform and the display driver in use), and this information is
-accessible by the Quadra team (not used for anything at the moment, but could
-be used to gauge the interest for support of specific platforms). We will not
-release the specifics of any information collected, only aggregate (for
-example, the percentages of users using Linux or Mac OS X), if ever.
+建置步驟
+--------
 
-This auto-update feature serves two purposes. One is to inform the user of new
-versions of Quadra, which might have important security or bug fixes. The
-other is to get the URL to use as the default Qserv address. The latter is so
-that we have some flexibility in moving Qserv (which has been a problem in the
-past, with downtime for Internet players). Fetching this file is done in the
-background, and does not delay starting up the game.
+**1. 設定 CMake**
 
-Packagers which provide automatic updating (such as Ubuntu and openSUSE) can
-disable the new version notification (with the --disable-version-check
-configure option), as it would be redundant and unhelpful to the user. Note
-that this does NOT disable fetching the file, as it is still necessary for
-obtaining the Qserv address.
+從 `quadra/` 目錄執行（根據你的 vcpkg 路徑調整 `CMAKE_PREFIX_PATH`）：
 
-Building on Unix-style systems
-------------------------------
+```powershell
+mkdir build
+cd build
+cmake .. -G "Visual Studio 17 2022" -A x64 `
+  -DCMAKE_PREFIX_PATH="C:\Users\$env:USERNAME\vcpkg\installed\x64-windows"
+```
 
-To compile and install this software on a Unix-like system, do this:
+**2. 編譯**
 
-If you checked out the source code from GitHub (if not, you can skip this
-step):
+```powershell
+cmake --build . --config Release
+```
 
-    $ autoreconf -i
+這會先產生 `wadder.exe`（資源打包工具），再用它打包 `quadra.res`，最後編譯出 `quadra.exe`。
 
-And then the traditional build procedure:
+**3. 執行**
 
-    $ ./configure
-    $ make
-    $ make install (optional)
+將必要的 DLL 複製到執行檔所在目錄，或將 vcpkg 的 `bin` 目錄加入 `PATH`：
 
-There you go! There is a 'quadra' binary and a 'quadra.res' resource
-file in the top-level directory. If not, then something went
-wrong. :-)
+```powershell
+# 從 vcpkg 複製 DLL（一次性）
+copy C:\Users\$env:USERNAME\vcpkg\installed\x64-windows\bin\SDL2.dll .\Release\
+copy C:\Users\$env:USERNAME\vcpkg\installed\x64-windows\bin\libpng16.dll .\Release\
+copy C:\Users\$env:USERNAME\vcpkg\installed\x64-windows\bin\z.dll .\Release\
+copy C:\Users\$env:USERNAME\vcpkg\installed\x64-windows\bin\boost_filesystem-vc143-mt-x64-1_91.dll .\Release\
+```
 
-You can run this with the following command (in bash):
+切換到 Release 目錄並執行：
 
-    QUADRADIR=. ./quadra
+```powershell
+cd Release
+.\quadra.exe
+```
 
-If you ran the ```make install``` command, then you have 'quadra'
-installed on your system and you can just run it (no need to
-set ```QUADRADIR```).
+`quadra.res` 資源檔會自動產生於 `build/` 目錄下，quadra.exe 會在執行時從所在目錄尋找該檔案。
 
-Building on Windows
--------------------
+檔案結構
+--------
 
-To compile Quadra on a Windows machine, use the Visual C++ workspace
-and project file in the VisualC++ subdirectory. Make sure you have
-zlib, libpng and DirectX (August 2007 SDK or earlier) properly installed
-for development on your machine. Run ```res.bat``` after building to
-create the resource file (quadra.res).
+```
+quadra/
+├── README.md              # 本檔案
+├── README_UPSTREAM.md     # 原作者說明文件
+├── CMakeLists.txt         # CMake 建置腳本
+├── resources.txt          # 資源檔案清單
+├── source/                # C++ 原始碼
+├── fonts/                 # 點陣字型 (.fnt)
+├── images/                # 圖形資源 (.png)
+├── sons/                  # 音效資源 (.wav)
+├── textes/                # 語言字串表 (.txt)
+├── demos/                 # 展示錄影 (.rec)
+├── server/                # Qserv 伺服器腳本
+├── stats/                 # 遊戲統計工具
+├── packages/              # 打包設定檔
+└── portable/              # 已編譯好的可攜版本（不進版控）
+```
 
-Building on Mac OS X
---------------------
+授權
+----
 
-A common problem on Mac OS X is that the libpng library is not available. This
-is relatively easy to work around, by downloading the libpng sources (available
-at http://www.libpng.org/pub/png/libpng.html), compiling them (no need to
-install it on your system!) and then adding a ```CPPFLAGS=-I/path/to/libpng
-LDFLAGS=-LCPPFLAGS=-I/path/to/libpng/.libs``` to the ```configure``` command
-line. It's possible that the LIBS variable will have to be adjusted in the
-Makefile, depending on the libpng version.
-
-Any questions?
---------------
-
-If you have any problem, patches, suggestions, bug reports or are simply
-looking for help, please take advantage of the resources available on our web
-site (https://github.com/quadra-game/quadra)! Among others, we have a support
-request system, mailing lists, a bug tracking system and plenty of other
-goodies, check it out!
-
-Good luck, and have fun!
-
+原始專案採用 GNU Lesser General Public License v2.1，詳見 `LICENSE` 及 `README_UPSTREAM.md`。
