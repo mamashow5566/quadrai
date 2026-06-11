@@ -200,11 +200,11 @@ void Qserv::create_req()
 
   Url defaulturl(config.info3.default_game_server_address);
   if(!defaulturl.getPort())
-    defaulturl.setPort(80);
+    defaulturl.setPort(3456);
   if(!strcmp(defaulturl.getHost(), ""))
-    defaulturl.setHost("quadra.bearmeta.io:80");
+    defaulturl.setHost("quadra.bearmeta.io");
   if(!strcmp(defaulturl.getPath(), "/"))
-    defaulturl.setPath("/cgi-bin/qserv.pl");
+    defaulturl.setPath("/");
 
 	Url url(config.info.game_server_address);
 	if(!url.getScheme() || strlen(url.getScheme()) == 0)

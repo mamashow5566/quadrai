@@ -28,29 +28,29 @@ func unsanitizeGameAddr(addr string) string {
 	return strings.ReplaceAll(addr, "_", ":")
 }
 
-// requestHandler 處理所有 HTTP 請求
+// requestHandler handles all HTTP requests
 func requestHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
-	
-	// 設定 Content-Type
+
+	// Set Content-Type
 	w.Header().Set("Content-Type", "text/plain")
-	
-	// 解析 data 參數
+
+	// Parse data parameter
 	if err := r.ParseForm(); err != nil {
 		http.Error(w, "Bad request", http.StatusBadRequest)
 		return
 	}
-	
+
 data := r.PostFormValue("data")
 	lines := strings.Split(data, "\n")
 	if len(lines) == 0 {
 		defaultResponse(w, r)
 		return
 	}
-	
+
 	cmd := lines[0]
 	params := make(map[string]interface{})
 	if len(lines) > 1 {
@@ -64,29 +64,38 @@ data := r.PostFormValue("data")
 			}
 		}
 	}
-	
-	// 執行 tweak 預處理
+
+	// Execute tweak preprocessing
 	tweak(r, params)
-	
-	// 命令分發
+
+	// Start access log
+	done := accessLog(r, cmd)
+
+	// Command dispatch
 	switch cmd {
 	case "postgame":
 		doPostGame(w, r, params)
+		done("ok")
 		return
 	case "deletegame":
 		doDeleteGame(w, r, params)
+		done("ok")
 		return
 	case "postdemo":
 		doPostDemo(w, r, params)
+		done("ok")
 		return
 	case "gethighscores":
 		doGetHighScores(w, r, params)
+		done("ok")
 		return
 	case "getgames":
 		doGetGames(w, r, params)
+		done("ok")
 		return
 	default:
 		defaultResponse(w, r)
+		done("unknown")
 		return
 	}
 }

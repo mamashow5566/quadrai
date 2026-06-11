@@ -3,10 +3,12 @@ package main
 import (
 	"flag"
 	"log"
+	"net"
 	"net/http"
 	"os"
 	"path/filepath"
 	"runtime"
+	"strings"
 )
 
 // Config holds runtime configuration
@@ -35,6 +37,7 @@ func main() {
 	datadir := flag.String("datadir", defaultData, "Data directory path")
 	port := flag.String("port", "3456", "Port to listen on")
 	debug := flag.Int("debug", 0, "Debug level (0=off, 1=on)")
+	logfile := flag.String("logfile", "", "Access log file path (default: stderr only)")
 	flag.Parse()
 
 	Config.DataDir, _ = filepath.Abs(*datadir)
@@ -46,6 +49,12 @@ func main() {
 		Config.Debug = 1
 	}
 
+	// Initialize access logging
+	if err := initLogging(*logfile); err != nil {
+		log.Fatalf("Failed to init logging: %v", err)
+	}
+	defer closeLogging()
+
 	// Initialize data directories
 	if err := initDataDir(); err != nil {
 		log.Fatalf("Failed to initialize data directory: %v", err)
@@ -54,8 +63,35 @@ func main() {
 	// Start HTTP server
 	http.HandleFunc("/", requestHandler)
 	addr := ":" + Config.Port
-	log.Printf("Starting qserv on %s (data dir: %s)", addr, Config.DataDir)
+	log.Printf("Starting qserv on port %s (data dir: %s)", Config.Port, Config.DataDir)
+	printLocalIPs(Config.Port)
 	log.Fatal(http.ListenAndServe(addr, nil))
+}
+
+// printLocalIPs lists available local IP addresses for client connections
+func printLocalIPs(port string) {
+	ifaces, err := net.Interfaces()
+	if err != nil {
+		return
+	}
+	var ips []string
+	for _, iface := range ifaces {
+		if iface.Flags&net.FlagUp == 0 || iface.Flags&net.FlagLoopback != 0 {
+			continue
+		}
+		addrs, err := iface.Addrs()
+		if err != nil {
+			continue
+		}
+		for _, a := range addrs {
+			if ipnet, ok := a.(*net.IPNet); ok && ipnet.IP.To4() != nil {
+				ips = append(ips, ipnet.IP.String()+":"+port)
+			}
+		}
+	}
+	if len(ips) > 0 {
+		log.Printf("  Available at: %s", strings.Join(ips, ", "))
+	}
 }
 
 // getEnv reads env variable, returns default if not set

@@ -30,16 +30,16 @@ New-Item -ItemType Directory -Path "$testData/scores" -Force | Out-Null
 
 # --- Start server ---
 Write-Host 'Starting qserv...'
-$proc = Start-Process -FilePath $exe -ArgumentList "--datadir $testData --port $port" -PassThru -WindowStyle Hidden
+$proc = Start-Process -FilePath $exe -ArgumentList "--datadir $testData --port $port --logfile $testData/access.log" -PassThru -WindowStyle Hidden
 
 # Wait for server to be ready (up to 15 seconds)
 $ready = $false
 1..15 | ForEach-Object {
     Start-Sleep -Seconds 1
-    try {
-        $null = Invoke-WebRequest -Uri $base -Method POST -Body 'data=hi' -TimeoutSec 2 -ErrorAction Stop
+    $check = curl.exe -s -o NUL -w '%{http_code}' -X POST $base --data-raw 'data=hi' 2>$null
+    if ($check -eq '200') {
         $ready = $true
-    } catch { }
+    }
     if ($ready) { return }
 }
 if (-not $ready) {
@@ -50,27 +50,17 @@ if (-not $ready) {
 Write-Host 'Server ready.'
 
 # --- Test helper ---
-# qserv expects newlines INSIDE the data value: data=postgame\nkey val\nkey val
-# Invoke-WebRequest sends body as application/x-www-form-urlencoded,
-# so we replace backtick-n with %0A to keep them as part of the data value.
 function test($name, $data, $expect) {
     Write-Host "TEST: $name" -NoNewline
     $encoded = $data -replace "`n", '%0A'
-    try {
-        $result = Invoke-WebRequest -Uri $base -Method POST -Body "data=$encoded" -TimeoutSec 5 -ErrorAction Stop
-        $body = $result.Content
-        if ($body -match $expect) {
-            Write-Host ' ... PASS' -ForegroundColor Green
-            $script:pass++
-        } else {
-            Write-Host ' ... FAIL' -ForegroundColor Red
-            Write-Host "  Expected: $expect" -ForegroundColor Yellow
-            Write-Host "  Got:      $body" -ForegroundColor Yellow
-            $script:fail++
-        }
-    } catch {
+    $result = curl.exe -s -X POST $base --data-raw "data=$encoded" 2>$null
+    if ($result -match $expect) {
+        Write-Host ' ... PASS' -ForegroundColor Green
+        $script:pass++
+    } else {
         Write-Host ' ... FAIL' -ForegroundColor Red
-        Write-Host "  Error: $($_.Exception.Message)" -ForegroundColor Yellow
+        Write-Host "  Expected: $expect" -ForegroundColor Yellow
+        Write-Host "  Got:      $result" -ForegroundColor Yellow
         $script:fail++
     }
 }
