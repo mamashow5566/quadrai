@@ -1509,20 +1509,12 @@ void Menu_main::redraw() {
     bit.draw(*background, 227, 345);
   }
 
-  // Version text disabled
-  // sprintf(st, ST_QUADRAVERSION, VERSION_STRING);
-  // new Zone_text(inter, st, 450, 430);
+  sprintf(st, ST_QUADRAVERSION, VERSION_STRING);
+  new Zone_text(inter, st, 450, 430);
   old_language = config.info.language;
   
   // b_logo disabled: www.ludusdesign.com is no longer accessible
   // b_logo = new Zone_menu(inter, background, res_debut8_png, 0, 390);
-  // Overlay black rectangle to hide the baked-in logo on background
-  {
-    Res_doze res(ResName("black.png"));
-    Png png(res);
-    Bitmap *cover = new Bitmap(png);
-    new Zone_bitmap(inter, cover, 0, 390, true);
-  }
 }
 
 void Menu_main::init() {
