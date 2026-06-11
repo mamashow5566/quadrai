@@ -491,7 +491,7 @@ switch ($Step.ToLower()) {
 }
 
 if (-not $Portable) {
-    $steps = $steps | Where-Object { $_ -ne "package" }
+    # Always include package step by default
 }
 
 # 2. Execute steps
