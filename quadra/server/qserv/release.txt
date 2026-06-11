@@ -1,0 +1,11 @@
+1.0.0
+Initial Go rewrite of qserv.pl with full behavioral compatibility.
+- HTTP POST API: postgame, deletegame, postdemo, gethighscores, getgames
+- Perl Data::Dumper serialization (load + save)
+- Game expiry (180s), score cleanup (top 100)
+- Atomic file writes (temp + rename)
+- Access logging ([REQ]/[RES] format, --logfile flag)
+- Windows/Linux cross-platform support
+- LAN/NAT traversal: Host auto-detects public IP via ifconfig.co
+- TCP connect timeout (10s) + receive timeout (15s)
+- Integration test suite (test.ps1, 9/9 pass)

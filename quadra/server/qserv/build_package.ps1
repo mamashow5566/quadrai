@@ -1,7 +1,14 @@
-$version = '1.0.0'
+# Read version from release.txt
+$version = '0.0.0'
+if (Test-Path "$PSScriptRoot/release.txt") {
+    $firstLine = Get-Content "$PSScriptRoot/release.txt" -First 1
+    if ($firstLine -match '^\d+\.\d+\.\d+') {
+        $version = $matches[0]
+    }
+}
 $outputDir = './output'
 $buildOutput = 'qserv_x64.exe'
-$packageName = "qserv_portable_$version"
+$packageName = 'qserv_portable'
 
 # Clean
 if (Test-Path $outputDir) {
@@ -27,6 +34,11 @@ New-Item -ItemType Directory -Path $packageDir -Force | Out-Null
 # Copy exe
 Copy-Item "$outputDir/$buildOutput" $packageDir
 
+# Copy release info
+if (Test-Path "$PSScriptRoot/release.txt") {
+    Copy-Item "$PSScriptRoot/release.txt" $packageDir
+}
+
 # Create data dirs
 New-Item -ItemType Directory -Path "$packageDir/data/games" -Force | Out-Null
 New-Item -ItemType Directory -Path "$packageDir/data/scores" -Force | Out-Null
@@ -47,6 +59,8 @@ $readme = @(
     '1. Double-click start.bat to start server (port 3456)',
     '2. Data stored in ./data/',
     '',
+    'Version: ' + $version + ' (see release.txt for changes)',
+    '',
     'Options:',
     '  --datadir PATH   Custom data directory',
     '  --port NUMBER    Custom port'
@@ -57,4 +71,4 @@ $readme -join "`r`n" | Set-Content -Path "$packageDir/README.txt" -Encoding UTF8
 Write-Host 'Creating ZIP package...'
 Compress-Archive -Path "$packageDir/*" -DestinationPath "$outputDir/$packageName.zip" -Force
 
-Write-Host "Done: $outputDir/$packageName.zip"
+Write-Host "Done: $outputDir/$packageName.zip  (v$version)"
