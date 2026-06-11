@@ -207,12 +207,12 @@ void Qserv::create_req()
     defaulturl.setPath("/");
 
 	Url url(config.info.game_server_address);
-	if(!url.getScheme() || strlen(url.getScheme()) == 0)
-		url.setScheme("http");
-	if(!url.getPort())
-		url.setPort(defaulturl.getPort());
 	if(!strcmp(url.getHost(), ""))
 		url.setHost(defaulturl.getHost());
+	if(!url.getPort())
+		url.setPort(defaulturl.getPort());
+	if(!url.getScheme() || strlen(url.getScheme()) == 0)
+		url.setScheme("http");
 	if(!strcmp(url.getPath(), "/"))
 		url.setPath(defaulturl.getPath());
 
