@@ -16,15 +16,18 @@ if (Test-Path $outputDir) {
 }
 New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
 
-# Build
+# Build (force rebuild, no cache)
 Write-Host 'Building Windows x64 executable...'
 $env:CGO_ENABLED = 0
-go build -ldflags='-s -w' -o "$outputDir/$buildOutput" .
+go build -a -ldflags='-s -w' -o "$outputDir/$buildOutput" .
 
 if ($LASTEXITCODE -ne 0) {
     Write-Error 'Build failed!'
     exit 1
 }
+
+# Also update binary in current dir (for test_qserv.ps1 and go run)
+Copy-Item "$outputDir/$buildOutput" "$PSScriptRoot/" -Force
 
 # Create portable structure
 Write-Host 'Creating portable structure...'
