@@ -60,7 +60,7 @@ void Config::default_config() {
 	info.cdmusic = 0; // 0=no music  1=auto-change  2=loop all
 	info.multi_level = 1;
 	info.unlock_theme = 0;
-	info.port_number = 3456;
+	info.port_number = 27910;
 	info.mouse_speed = 100;
 	info.pane[0] = 2;
 	info.pane[1] = 0;

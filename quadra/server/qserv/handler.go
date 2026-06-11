@@ -30,6 +30,13 @@ func unsanitizeGameAddr(addr string) string {
 
 // requestHandler handles all HTTP requests
 func requestHandler(w http.ResponseWriter, r *http.Request) {
+	defer func() {
+		if rec := recover(); rec != nil {
+			log.Printf("PANIC: %v (from %s)", rec, r.RemoteAddr)
+			http.Error(w, "Internal error", http.StatusInternalServerError)
+		}
+	}()
+
 	if r.Method != "POST" {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -70,6 +77,7 @@ data := r.PostFormValue("data")
 
 	// Start access log
 	done := accessLog(r, cmd)
+	defer cleanup()
 
 	// Command dispatch
 	switch cmd {

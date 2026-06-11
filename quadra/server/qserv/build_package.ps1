@@ -34,6 +34,7 @@ New-Item -ItemType Directory -Path "$packageDir/data/scores" -Force | Out-Null
 # Create start.bat
 $lines = @(
     '@echo off',
+    'taskkill /f /im qserv_x64.exe 2>nul',
     '.\qserv_x64.exe --datadir ".\data"',
     'pause'
 )
