@@ -12,6 +12,7 @@ run/
 *.sln
 CMakeCache.txt
 CMakeFiles/
+quadra/config.h
 .opencode/
 .vscode/
 
