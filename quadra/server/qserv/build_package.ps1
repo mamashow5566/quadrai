@@ -1,7 +1,7 @@
-# Read version from release.txt
+# Read version from qserv_release.txt
 $version = '0.0.0'
-if (Test-Path "$PSScriptRoot/release.txt") {
-    $firstLine = Get-Content "$PSScriptRoot/release.txt" -First 1
+if (Test-Path "$PSScriptRoot/qserv_release.txt") {
+    $firstLine = Get-Content "$PSScriptRoot/qserv_release.txt" -First 1
     if ($firstLine -match '^\d+\.\d+\.\d+') {
         $version = $matches[0]
     }
@@ -35,8 +35,8 @@ New-Item -ItemType Directory -Path $packageDir -Force | Out-Null
 Copy-Item "$outputDir/$buildOutput" $packageDir
 
 # Copy release info
-if (Test-Path "$PSScriptRoot/release.txt") {
-    Copy-Item "$PSScriptRoot/release.txt" $packageDir
+if (Test-Path "$PSScriptRoot/qserv_release.txt") {
+    Copy-Item "$PSScriptRoot/qserv_release.txt" $packageDir
 }
 
 # Create data dirs
@@ -59,7 +59,7 @@ $readme = @(
     '1. Double-click start.bat to start server (port 3456)',
     '2. Data stored in ./data/',
     '',
-    'Version: ' + $version + ' (see release.txt for changes)',
+    'Version: ' + $version + ' (see qserv_release.txt for changes)',
     '',
     'Options:',
     '  --datadir PATH   Custom data directory',
