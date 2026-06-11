@@ -22,6 +22,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 #include "error.h"
 #include "net.h"
 
@@ -126,6 +127,8 @@ Http_request::Http_request(const char *aHost, int port, const uint8_t *request, 
 	}
 	nc=net->start_other(aHost, port); // nc could be NULL in case of error!
 	sent=false;
+	start_time = time(NULL);
+	connected_time = 0;
 }
 
 Http_request::Http_request(const char* aHost, uint32_t hostaddr, int port, const uint8_t *request, int size) {
@@ -140,6 +143,8 @@ Http_request::Http_request(const char* aHost, uint32_t hostaddr, int port, const
 	}
 	nc=net->start_other(hostaddr, port); // nc could be NULL in case of error!
 	sent=false;
+	start_time = time(NULL);
+	connected_time = 0;
 }
 
 Http_request::~Http_request() {
@@ -180,15 +185,39 @@ bool Http_request::done() {
 		buf.append(&st, 1);
 		return true;
 	}
-	if(state<Net_connection::connected)
+	// Timeout: still connecting after CONNECT_TIMEOUT seconds
+	if(state<Net_connection::connected) {
+		if(time(NULL) - start_time > CONNECT_TIMEOUT) {
+			skelton_msgbox("Http_request::done: connect timeout after %d seconds\n", CONNECT_TIMEOUT);
+			delete nc;
+			nc = NULL;
+			uint8_t st=0;
+			buf.append(&st, 1);
+			return true;
+		}
 		return false;
+	}
+	// Just became connected
+	if(!connected_time)
+		connected_time = time(NULL);
 	if(!sent)
 		sendrequest();
 	uint8_t tmp[4096];
 	uint32_t tube=nc->receivetcp(tmp, 4096);
-	if(tube)
+	if(tube) {
 		buf.append(tmp, tube);
+		connected_time = time(NULL); // reset timer on data
+	}
 	if(!tube && nc->state()==Net_connection::disconnected) {
+		uint8_t st=0;
+		buf.append(&st, 1);
+		return true;
+	}
+	// Timeout: connected but no data for RECEIVE_TIMEOUT seconds
+	if(!tube && time(NULL) - connected_time > RECEIVE_TIMEOUT) {
+		skelton_msgbox("Http_request::done: receive timeout after %d sec\n", RECEIVE_TIMEOUT);
+		delete nc;
+		nc = NULL;
 		uint8_t st=0;
 		buf.append(&st, 1);
 		return true;

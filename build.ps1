@@ -292,7 +292,7 @@ function Invoke-BuildWadder {
 
     Write-Step "Building wadder.exe (resource packer)"
 
-    & $CMakeExe --build $BuildDir --target wadder --config Release 2>&1 | ForEach-Object {
+    & $CMakeExe --build $BuildDir --target wadder --config Release -- /nologo 2>&1 | ForEach-Object {
         if ($_ -match "error C\d+") {
             Write-Host $_ -ForegroundColor Red
         } else {
@@ -337,7 +337,7 @@ function Invoke-GenerateRes {
         }
     }
 
-    & $CMakeExe --build $BuildDir --target quadra_res --config Release 2>&1 | ForEach-Object {
+    & $CMakeExe --build $BuildDir --target quadra_res --config Release -- /nologo 2>&1 | ForEach-Object {
         Write-Host $_
     }
 
@@ -360,7 +360,7 @@ function Invoke-BuildQuadra {
 
     Write-Step "Building quadra.exe"
 
-    & $CMakeExe --build $BuildDir --target quadra --config Release 2>&1 | ForEach-Object {
+    & $CMakeExe --build $BuildDir --target quadra --config Release -- /nologo 2>&1 | ForEach-Object {
         if ($_ -match "error C\d+") {
             Write-Host $_ -ForegroundColor Red
         } elseif ($_ -match "quadra.vcxproj ->") {
@@ -509,11 +509,29 @@ foreach ($s in $steps) {
 }
 
 # 3. Done
-Write-Host @"
+$msg = @"
 
 ========================================
   Build complete!
-  Executable: $QuadraDir\portable\quadra.exe
-  Run: .\quadra\portable\quadra.exe
+
+  Portable package:
+    $PortableDir
+
+  Files:
+    quadra.exe      ($((Get-Item (Join-Path $PortableDir "quadra.exe")).Length) bytes)
+    quadra.res      ($((Get-Item (Join-Path $PortableDir "quadra.res")).Length) bytes)
+    SDL2.dll
+    libpng16.dll
+    z.dll
+    boost_filesystem-*.dll
+
+  Run:
+    .\quadra\portable\quadra.exe
+
+  Deploy:
+    Copy the entire portable\ folder to any Windows x64 machine.
+    If VC++ runtime is missing, install:
+    https://aka.ms/vs/17/release/vc_redist.x64.exe
 ========================================
-"@ -ForegroundColor Green
+"@
+Write-Host $msg -ForegroundColor Green

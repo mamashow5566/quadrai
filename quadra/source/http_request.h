@@ -23,6 +23,7 @@
 
 #include <stdint.h>
 #include <string>
+#include <ctime>
 
 #include "types.h"
 #include "buf.h"
@@ -40,6 +41,10 @@ protected:
 	void sendrequest();
 	bool sent;
 	std::string host;
+	time_t start_time;
+	time_t connected_time;
+	static const int CONNECT_TIMEOUT = 10;  // seconds to establish TCP connection
+	static const int RECEIVE_TIMEOUT = 15;  // seconds to receive data after connected
 public:
 	Http_request(const char *aHost, int port, const uint8_t *request=NULL, int size=0);
 	Http_request(const char *aHost, uint32_t hostaddr, int port, const uint8_t *request=NULL, int size=0);
