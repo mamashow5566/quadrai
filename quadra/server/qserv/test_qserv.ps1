@@ -1,5 +1,5 @@
 # qserv portable integration test
-# Run: .\test.ps1   (auto-starts/stops the portable server)
+# Run: .\test_qserv.ps1   (auto-starts/stops the portable server)
 
 $ErrorActionPreference = 'Continue'
 $port = '34560'

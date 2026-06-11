@@ -13,7 +13,7 @@ quadra/server/qserv/
   handler.go          請求路由、tweak、5 個命令處理器
   data.go             資料目錄初始化、cleanup registry、遊戲過期/分數清理
   dumper.go           Perl Data::Dumper 序列化（Load / Save）
-  test.ps1            整合測試（自動啟動/停止伺服器，9 項測試）
+  test_qserv.ps1            整合測試（自動啟動/停止伺服器，9 項測試）
   build_qserv.ps1   編譯打包腳本（產生 portable ZIP）
   qserv_readme.md     維護參考文件
   qserv.md            本規格書
@@ -252,7 +252,7 @@ DEBUG             設為任意值啟用 debug（若 --debug=0）
 ## 十、測試
 
 ```powershell
-.\test.ps1
+.\test_qserv.ps1
 ```
 
 涵蓋 9 項測試（使用獨立 port 34560 與暫存資料目錄）：

@@ -13,7 +13,7 @@ qserv/
   handler.go       HTTP request routing, all 5 command handlers
   data.go          Data directory init, game/scores cleanup
   dumper.go        Perl Data::Dumper serialization (read + write)
-  test.ps1         Integration test (auto-starts server, runs 9 tests)
+  test_qserv.ps1         Integration test (auto-starts server, runs 9 tests)
   build_qserv.ps1 Portable build script (compiles + packages ZIP)
 ```
 
@@ -27,7 +27,7 @@ go run .
 .\build_qserv.ps1
 
 # Run tests (auto starts/stops server)
-.\test.ps1
+.\test_qserv.ps1
 ```
 
 ## API Specification
@@ -150,7 +150,7 @@ qserv_portable/
 ## Testing
 
 ```powershell
-.\test.ps1
+.\test_qserv.ps1
 ```
 
 Covers 9 scenarios: unknown command, postgame (new + update), getgames, postdemo (×2),

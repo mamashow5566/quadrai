@@ -8,4 +8,4 @@ Initial Go rewrite of qserv.pl with full behavioral compatibility.
 - Windows/Linux cross-platform support
 - LAN/NAT traversal: Host auto-detects public IP via ifconfig.co
 - TCP connect timeout (10s) + receive timeout (15s)
-- Integration test suite (test.ps1, 9/9 pass)
+- Integration test suite (test_qserv.ps1, 9/9 pass)
