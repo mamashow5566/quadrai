@@ -421,9 +421,139 @@ Net_server::wantjoin() ←───────────────┘
             → Canvas::give_line() → 加入 bon[] 攻擊佇列
 ```
 
-### 5.4 Qserv 伺服器註冊
+### 5.4 Qserv 伺服器註冊（遊戲大廳）
 
-伺服器透過 HTTP POST 向 Qserv 中心伺服器註冊遊戲資訊，供玩家在遊戲列表中搜尋。
+#### 架構
+
+```
+Host 機                   Qserv 機               Client 機
+───────                  ────────                ────────
+Host 開遊戲               qserv_x64.exe           TCP/IP Internet
+監聽 :27910 (遊戲port)    監聽 :3456 (HTTP)       → Refresh
+  │                          │                       │
+  ├── POST postgame ────→   寫入 games/IP_PORT       │
+  │                          │                       │
+  │                          │  ←── POST getgames ───┤
+  │                          │    回傳 Current games │
+  │                          │                       │
+  │  ←──────── TCP 直連 ──────────────────────── Join ──┤
+  │     (對戰不經 qserv)                             │
+```
+
+#### Port 分離
+
+| Port | 用途 | 協定 | 方向 |
+|------|------|------|------|
+| `3456` | qserv HTTP API | TCP | 入站 |
+| `27910` | Quadra 遊戲託管 | TCP | 入站 |
+
+> **重要**：兩個 port 必須不同，否則 Quadra Host 和 qserv 會搶同一個 port。
+
+#### qserv HTTP API
+
+```
+POST /
+Content-Type: application/x-www-form-urlencoded
+Body: data=<cmd>\n<key> <value>\n...
+
+命令：
+  postgame       註冊/更新遊戲 (info/name, port, info/players...)
+  deletegame     刪除遊戲
+  getgames       查詢遊戲列表
+  postdemo       上傳分數 (score, info/player, rec...)
+  gethighscores  查詢排行榜 (num)
+```
+
+回應格式：`text/plain`，第一行為狀態（`Ok`、`Game added`、`Current games`...），其餘為 `key value` 行。
+
+#### Quadra Client → Qserv 連線設定
+
+| 設定項 | 位置 | 說明 |
+|--------|------|------|
+| `config.info.game_server_address` | Options → Advanced → Game server address | 使用者自訂 qserv 位址 |
+| `config.info3.default_game_server_address` | 自動更新取得 | 動態預設值 |
+| `config.info.port_number` | Options → Advanced → Port | **遊戲託管** port（非 qserv port） |
+
+優先順序：
+1. 使用者自訂 `game_server_address`（如 `172.28.0.66` 或 `quadra.bearmeta.io`）
+2. 自動更新的 `default_game_server_address`
+3. 程式內 fallback：`quadra.bearmeta.io:3456`
+
+> 格式可只填 IP/主機名，不帶 port 時自動用 `3456`。
+
+#### Host 遊戲註冊流程
+
+```
+1. Host 畫面設定 Public: Yes
+2. Create_game_end::init() → sendgameinfo(true) → POST deletegame (清舊紀錄)
+3. Net_list::step() 計時器 → sendgameinfo(false) → POST postgame (刊登)
+4. 定時重送 postgame 續命 (< 180 秒)
+5. Host 關閉 → sendgameinfo(true) → POST deletegame
+```
+
+> Qserv 會在 `getgames` 時自動清除超過 180 秒未更新的遊戲。
+
+#### Client 查詢遊戲列表
+
+```
+1. TCP/IP Internet → Refresh
+2. Menu_multi_internet → Qserv::create_req() → POST getgames
+3. 解析回應 "Current games\nIP:PORT/key value..."
+4. 顯示遊戲名稱與玩家數
+```
+
+#### 去重規則 (getgames)
+
+| 條件 | 去重 Key |
+|------|---------|
+| `quadra_version == "1.1.2"` | `IP:PORT`（移除 `players` 欄位） |
+| 無 `quadra_version` 且無 `qsnoop_version` | Host only（不含 port） |
+| 其他 | `IP:PORT` |
+
+#### HTTP 連線機制
+
+- TCP socket 為 non-blocking，透過 `select()` 輪詢
+- 連線 timeout：10 秒（`CONNECT_TIMEOUT`）
+- 接收 timeout：15 秒（`RECEIVE_TIMEOUT`）
+- `Http_request::done()` 逾時自動中斷
+- 支援 HTTP Redirect（永久轉址）
+- 支援 HTTP Proxy（`config.info2.proxy_address`）
+
+#### qserv 伺服器 (Go 實作)
+
+```
+quadra/server/qserv/
+  main.go     HTTP 伺服器，--port --datadir --logfile --debug
+  handler.go  請求路由 + 5 個命令處理器
+  data.go     資料目錄、cleanup registry
+  dumper.go   Perl Data::Dumper 序列化
+  log.go      存取日誌 [REQ]/[RES]/[ERR]
+```
+
+- 遊戲資料：`<datadir>/games/<IP_PORT>`（Perl Dumper 格式）
+- 分數資料：`<datadir>/scores/<SCORE>`（Perl Dumper 格式）
+- Windows 上 `:` 自動轉為 `_` 以避免檔名問題
+- 啟動時顯示本機 IP 位址，方便 client 設定
+
+#### 分數同步流程
+
+```
+1. High Scores → Sync
+2. 有本地紀錄 → POST postdemo（上傳自己的 demo）
+   無本地紀錄 → POST gethighscores（純查詢）
+3. 解析 high000/... high001/... 的 key value
+4. 儲存為全域分數檔案
+```
+
+#### 除錯檢查清單
+
+| 問題 | 檢查 |
+|------|------|
+| Host 開遊戲但列表看不到 | qserv log 是否有 `postgame`？Public 是否 Yes？ |
+| Client Refresh 無反應 | Game server address 是否正確？Port 是否 3456？ |
+| curl localhost OK 但遠端不行 | 防火牆是否允許 port 3456 入站？ |
+| 兩個 qserv 搶 port | `taskkill /f /im qserv_x64.exe` 後重啟 |
+| 遊戲託管 port 和 qserv port 衝突 | Quadra port 設為 27910（非 3456） |
 
 ---
 
