@@ -16,6 +16,10 @@ quadra/config.h
 .opencode/
 .vscode/
 
+# qserv build output & test artifacts
+quadra/server/qserv/output/
+quadra/server/qserv/test_data/
+
 # opencode config (may contain API keys, tokens, secrets)
 opencode.json
 opencode.jsonc
