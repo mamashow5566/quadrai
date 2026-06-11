@@ -14,7 +14,7 @@ qserv/
   data.go          Data directory init, game/scores cleanup
   dumper.go        Perl Data::Dumper serialization (read + write)
   test.ps1         Integration test (auto-starts server, runs 9 tests)
-  build_package.ps1 Portable build script (compiles + packages ZIP)
+  build_qserv.ps1 Portable build script (compiles + packages ZIP)
 ```
 
 ## Quick Start
@@ -24,7 +24,7 @@ qserv/
 go run .
 
 # Build portable exe
-.\build_package.ps1
+.\build_qserv.ps1
 
 # Run tests (auto starts/stops server)
 .\test.ps1
@@ -132,7 +132,7 @@ DEBUG             Set to any value to enable debug logging (if --debug=0)
 ## Build & Package
 
 ```powershell
-.\build_package.ps1
+.\build_qserv.ps1
 ```
 
 Produces `output/qserv_portable_1.0.0.zip` containing:

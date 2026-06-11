@@ -14,7 +14,7 @@ quadra/server/qserv/
   data.go             資料目錄初始化、cleanup registry、遊戲過期/分數清理
   dumper.go           Perl Data::Dumper 序列化（Load / Save）
   test.ps1            整合測試（自動啟動/停止伺服器，9 項測試）
-  build_package.ps1   編譯打包腳本（產生 portable ZIP）
+  build_qserv.ps1   編譯打包腳本（產生 portable ZIP）
   qserv_readme.md     維護參考文件
   qserv.md            本規格書
 ```
@@ -245,7 +245,7 @@ DEBUG             設為任意值啟用 debug（若 --debug=0）
 | 6 | Perl Dumper 尾逗號 JSON 非法 | `removeTrailingCommas` |
 | 7 | Game added/updated 判斷時機錯誤 | 改為寫入**前**檢查（與 Perl `-e` 一致） |
 | 8 | PowerShell 單引號不解析 `` `n `` | 測試資料改用雙引號字串 |
-| 9 | build_package.ps1 here-string 巢狀雙引號解析失敗 | 改用陣列 `-join` 組合 |
+| 9 | build_qserv.ps1 here-string 巢狀雙引號解析失敗 | 改用陣列 `-join` 組合 |
 
 ---
 

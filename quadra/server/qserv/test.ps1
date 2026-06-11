@@ -18,7 +18,7 @@ if (-not (Test-Path $exe)) {
     $exe = "$PSScriptRoot/output/qserv_portable/qserv_x64.exe"
 }
 if (-not (Test-Path $exe)) {
-    Write-Error 'qserv_x64.exe not found. Run build_package.ps1 first.'
+    Write-Error 'qserv_x64.exe not found. Run build_qserv.ps1 first.'
     exit 1
 }
 Write-Host "Using: $exe"
