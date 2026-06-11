@@ -78,7 +78,34 @@ test 'postdemo'          "postdemo`nscore 5000`ninfo/player Alice"              
 test 'postdemo score2'   "postdemo`nscore 3000`ninfo/player Bob"                     'Ok'
 test 'gethighscores'     "gethighscores"                                              'high000'
 test 'deletegame exists' "deletegame`nport 27910"                                     'Game deleted'
-test 'deletegame missing' "deletegame`nport 99999"                                    'Game not found'
+test 'deletegame missing' "deletegame`nport 99999"                                 'Game not found'
+
+# --- Edge case: Quadra client writes files with trailing ;\n ---
+# Simulate a file written by the real Quadra client (with newline after ;)
+$simFile = "$testData/games/test_10_0_0_1_27999"
+$simData = @"
+`$VAR1 = {
+  'info' => {
+    'name' => 'QuadraSim',
+    'remoteaddr' => '10.0.0.1',
+  },
+  'port' => '27999',
+};
+"@
+$simData | Set-Content -Path $simFile -NoNewline
+# Append the trailing ;\n+newline like Quadra does
+Add-Content -Path $simFile -Value ""
+Write-Host "TEST: quadra-format game file" -NoNewline
+$result = curl.exe -s -X POST $base --data-raw 'data=getgames' 2>$null
+if ($result -match 'QuadraSim') {
+    Write-Host ' ... PASS' -ForegroundColor Green
+    $pass++
+} else {
+    Write-Host ' ... FAIL' -ForegroundColor Red
+    Write-Host "  Expected: QuadraSim" -ForegroundColor Yellow
+    Write-Host "  Got:      $result" -ForegroundColor Yellow
+    $fail++
+}
 
 # --- Teardown ---
 Write-Host ''
