@@ -12,3 +12,5 @@ run/
 *.sln
 CMakeCache.txt
 CMakeFiles/
+.opencode/
+.vscode/
