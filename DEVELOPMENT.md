@@ -523,12 +523,20 @@ Body: data=<cmd>\n<key> <value>\n...
 
 ```
 quadra/server/qserv/
-  main.go     HTTP 伺服器，--port --datadir --logfile --debug
-  handler.go  請求路由 + 5 個命令處理器
-  data.go     資料目錄、cleanup registry
-  dumper.go   Perl Data::Dumper 序列化
-  log.go      存取日誌 [REQ]/[RES]/[ERR]
+  main.go            HTTP 伺服器，--port --datadir --logfile --debug
+  handler.go         請求路由 + 5 個命令處理器
+  data.go            資料目錄、cleanup registry
+  dumper.go          Perl Data::Dumper 序列化
+  log.go             存取日誌初始化、[REQ]/[RES]/[ERR]/[DATA] 格式記錄
+  go.mod             Go module 定義
+  build_qserv.ps1    一鍵編譯打包腳本
+  test_qserv.ps1     整合測試（10/10 pass）
+  qserv.md           詳細規格書
+  qserv_readme.md    維護參考文件
+  qserv_release.txt  版本號碼與 changelog
 ```
+
+詳細 API 規格見 `quadra/server/qserv/qserv.md`。
 
 - 遊戲資料：`<datadir>/games/<IP_PORT>`（Perl Dumper 格式）
 - 分數資料：`<datadir>/scores/<SCORE>`（Perl Dumper 格式）
@@ -715,7 +723,7 @@ Canvas::step() (由 Net_list_stepper::step_all() 驅動)
 
 ## 10. 建置與執行
 
-> 快速建置請使用 `build.ps1`，詳情參閱 `README.md`。
+> 快速建置請使用 `build_quadra.ps1`，詳情參閱 `README.md`。
 
 ### 10.1 Windows (vcpkg)
 

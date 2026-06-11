@@ -13,7 +13,8 @@ qserv/
   handler.go       HTTP request routing, all 5 command handlers
   data.go          Data directory init, game/scores cleanup
   dumper.go        Perl Data::Dumper serialization (read + write)
-  test_qserv.ps1         Integration test (auto-starts server, runs 9 tests)
+  log.go           Access logging (REQ/RES/ERR/DATA format, --logfile support)
+  test_qserv.ps1   Integration test (auto-starts server, 10 tests)
   build_qserv.ps1 Portable build script (compiles + packages ZIP)
 ```
 
@@ -111,6 +112,7 @@ $VAR1 = {
                     /home/groups/q/qu/quadra/data on Linux)
 --port <port>       Listen port (default: 3456)
 --debug <level>     Debug level (0=off, 1=on)
+--logfile <path>    Access log file path (default: stderr only)
 ```
 
 ### Environment Variables
@@ -135,7 +137,7 @@ DEBUG             Set to any value to enable debug logging (if --debug=0)
 .\build_qserv.ps1
 ```
 
-Produces `output/qserv_portable_1.0.0.zip` containing:
+Produces `output/qserv_portable.zip` containing:
 
 ```
 qserv_portable/
@@ -152,9 +154,9 @@ qserv_portable/
 ```powershell
 .\test_qserv.ps1
 ```
-
-Covers 9 scenarios: unknown command, postgame (new + update), getgames, postdemo (×2),
-gethighscores, deletegame (exists + missing). Uses port 34560 and temp data dir
+Covers 10 scenarios: unknown command, postgame (new + update), getgames,
+postdemo (×2), gethighscores, deletegame (exists + missing),
+quadra-format file with trailing ;\n. Uses port 34560 and temp data dir
 to avoid conflicts.
 
 ## Known Limitations
@@ -170,4 +172,4 @@ to avoid conflicts.
 ## References
 
 - Original Perl script: `../qserv.pl`
-- Rewrite plan: `.opencode/agent/qserv.md`
+- Specification: `qserv.md`

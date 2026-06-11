@@ -1,6 +1,6 @@
 # QServ 規格書 — Go 重寫版 v1.0
 
-> 狀態：**已完成並通過整合測試**（9/9 pass）
+> 狀態：**已完成並通過整合測試**（10/10 pass）
 > 原始 Perl 腳本：`../qserv.pl`
 
 ---
@@ -13,8 +13,9 @@ quadra/server/qserv/
   handler.go          請求路由、tweak、5 個命令處理器
   data.go             資料目錄初始化、cleanup registry、遊戲過期/分數清理
   dumper.go           Perl Data::Dumper 序列化（Load / Save）
-  test_qserv.ps1            整合測試（自動啟動/停止伺服器，9 項測試）
-  build_qserv.ps1   編譯打包腳本（產生 portable ZIP）
+  log.go              存取日誌（[REQ]/[RES]/[ERR]/[DATA]）
+  test_qserv.ps1      整合測試（自動啟動/停止伺服器，10 項測試）
+  build_qserv.ps1     編譯打包腳本（產生 portable ZIP）
   qserv_readme.md     維護參考文件
   qserv.md            本規格書
 ```
@@ -203,6 +204,7 @@ cleanupRegistry["scores"] = cleanupScores
 --datadir <path>    資料目錄路徑
 --port <port>       監聽端口（預設 3456）
 --debug <0|1>       除錯模式
+--logfile <path>    存取日誌檔案路徑（預設僅輸出到 stderr）
 ```
 
 ### 環境變數（備用）
@@ -255,7 +257,7 @@ DEBUG             設為任意值啟用 debug（若 --debug=0）
 .\test_qserv.ps1
 ```
 
-涵蓋 9 項測試（使用獨立 port 34560 與暫存資料目錄）：
+涵蓋 10 項測試（使用獨立 port 34560 與暫存資料目錄）：
 
 | # | 測試 | 驗證點 |
 |---|------|--------|
@@ -268,3 +270,4 @@ DEBUG             設為任意值啟用 debug（若 --debug=0）
 | 7 | gethighscores | `high000` |
 | 8 | deletegame 存在 | `Game deleted` |
 | 9 | deletegame 不存在 | `Game not found` |
+| 10 | quadra-format 檔案 | 檔尾 `;\n` 正確解析 |
