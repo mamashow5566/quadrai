@@ -14,3 +14,8 @@ CMakeCache.txt
 CMakeFiles/
 .opencode/
 .vscode/
+
+# opencode config (may contain API keys, tokens, secrets)
+opencode.json
+opencode.jsonc
+*.opencode
