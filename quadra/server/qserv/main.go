@@ -2,6 +2,8 @@ package main
 
 import (
 	"flag"
+	"fmt"
+	"io"
 	"log"
 	"net"
 	"net/http"
@@ -9,6 +11,7 @@ import (
 	"path/filepath"
 	"runtime"
 	"strings"
+	"time"
 )
 
 // Config holds runtime configuration
@@ -39,7 +42,7 @@ func main() {
 	port := flag.String("port", "3456", "Port to listen on")
 	debug := flag.Int("debug", 0, "Debug level (0=off, 1=on)")
 	logfile := flag.String("logfile", "", "Access log file path (default: stderr only)")
-	publicip := flag.String("public-ip", "", "Public IP to advertise (replaces private LAN IPs in game listings)")
+	publicip := flag.String("public-ip", "", "Public IP override (auto-detected if empty)")
 	flag.Parse()
 
 	Config.DataDir, _ = filepath.Abs(*datadir)
@@ -50,6 +53,13 @@ func main() {
 	// env override for debug
 	if Config.Debug == 0 && os.Getenv("DEBUG") != "" {
 		Config.Debug = 1
+	}
+
+	// Auto-detect public IP if not manually set
+	if Config.PublicIP == "" {
+		if detected, err := detectPublicIP(); err == nil {
+			Config.PublicIP = detected
+		}
 	}
 
 	// Initialize access logging
@@ -68,6 +78,9 @@ func main() {
 	addr := ":" + Config.Port
 	log.Printf("Starting qserv on port %s (data dir: %s)", Config.Port, Config.DataDir)
 	printLocalIPs(Config.Port)
+	if Config.PublicIP != "" {
+		log.Printf("  Public IP (for remote clients): %s", Config.PublicIP)
+	}
 	log.Fatal(http.ListenAndServe(addr, nil))
 }
 
@@ -103,4 +116,31 @@ func getEnv(key, defaultValue string) string {
 		return value
 	}
 	return defaultValue
+}
+
+// detectPublicIP queries an external service to get the public IP
+func detectPublicIP() (string, error) {
+	services := []string{
+		"http://ifconfig.co",
+		"http://icanhazip.com",
+		"http://ipinfo.io/ip",
+	}
+	client := &http.Client{Timeout: 5 * time.Second}
+	for _, url := range services {
+		resp, err := client.Get(url)
+		if err != nil {
+			continue
+		}
+		body, err := io.ReadAll(io.LimitReader(resp.Body, 100))
+		resp.Body.Close()
+		if err != nil {
+			continue
+		}
+		ip := strings.TrimSpace(string(body))
+		if net.ParseIP(ip) != nil {
+			log.Printf("Detected public IP: %s (via %s)", ip, url)
+			return ip, nil
+		}
+	}
+	return "", fmt.Errorf("could not detect public IP from any service")
 }
