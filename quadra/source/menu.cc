@@ -1513,7 +1513,8 @@ void Menu_main::redraw() {
   new Zone_text(inter, st, 450, 430);
   old_language = config.info.language;
   
-  b_logo = new Zone_menu(inter, background, res_debut8_png, 0, 390);
+  // b_logo disabled: www.ludusdesign.com is no longer accessible
+  // b_logo = new Zone_menu(inter, background, res_debut8_png, 0, 390);
 }
 
 void Menu_main::init() {
@@ -1565,7 +1566,7 @@ void Menu_main::step() {
 #ifdef WIN32
   if(result == b_logo) {
     call(new Fade_in(pal));
-    call(new Menu_internet(ST_HELP20)); // web site URL
+    call(new Menu_internet(ST_HELP20));
     call(new Fade_to(Palette(), pal));
   }
 #endif
