@@ -1420,15 +1420,7 @@ Menu_intro::Menu_intro() {
     y += 20;
   }
   (void)new Zone_text(inter, ST_INTRO9, 10, y);
-#ifdef ENABLE_VERSION_CHECK
-  if(strcmp(VERSION_STRING, config.info3.latest_version) != 0)
-  {
-    (void)new Zone_text(font2, inter, "A new version of Quadra is available!",
-                        10, y + 40);
-    (void)new Zone_text(font2, inter, "Get it at https://github.com/quadra-game/quadra",
-                        10, y + 60);
-  }
-#endif
+  // Version check disabled
   (void)new Zone_text(inter, ST_INTRO10, 10, 430);
   (void)new Zone_text(inter, ST_INTRO11, 10, 450);
   once = false;
@@ -2173,8 +2165,8 @@ void Menu_internet::init() {
 
 void Menu_internet::step() {
   Menu::step();
-  SDL_OpenURL(command);
-  call(new Wait_time(200));
+  // SDL_OpenURL disabled - no external links
+  call(new Wait_time(100));
   ret();
 }
 
