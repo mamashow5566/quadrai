@@ -434,6 +434,14 @@ function Invoke-PackagePortable {
     Write-OK "Portable package created: $PortableDir"
     Write-HINT "You can copy portable\ to any Windows 10/11 x64 machine"
     Write-HINT "If VC++ runtime is missing: https://aka.ms/vs/17/release/vc_redist.x64.exe"
+
+    # Create ZIP
+    $zipPath = Join-Path $ScriptDir "quadra_portable.zip"
+    if (Test-Path $zipPath) {
+        Remove-Item $zipPath -Force
+    }
+    Compress-Archive -Path "$PortableDir\*" -DestinationPath $zipPath -Force
+    Write-OK "ZIP package: $zipPath"
     return $true
 }
 
@@ -530,6 +538,7 @@ $msg = @"
 
   Deploy:
     Copy the entire portable\ folder to any Windows x64 machine.
+    Or distribute: .\quadra_portable.zip
     If VC++ runtime is missing, install:
     https://aka.ms/vs/17/release/vc_redist.x64.exe
 ========================================

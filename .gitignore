@@ -21,6 +21,7 @@ quadra/server/qserv/output/
 quadra/server/qserv/test_data/
 quadra/server/qserv/*.log
 quadra/portable.zip
+quadra_portable.zip
 
 # opencode config (may contain API keys, tokens, secrets)
 opencode.json
