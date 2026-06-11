@@ -1527,6 +1527,8 @@ void Menu_main::init() {
 void Menu_main::reset_delay() {
 	delay = 12000;
   
+	// Version check disabled (auto-updater is disabled)
+	/*
 	if(!version_warning)
 	{
 		if(strcmp(VERSION_STRING, config.info3.latest_version) != 0)
@@ -1536,6 +1538,7 @@ void Menu_main::reset_delay() {
 			version_warning = true;
 		}
 	}
+	*/
 }
 
 void Menu_main::step() {

@@ -681,9 +681,9 @@ int start_game() {
 	init_stuff(!no_sound, !no_video, fullscreen); //No sound when checking demos
   msgbox("Ok\n");
 
-  // Start auto-updater, but only if we have video enabled.
-  if(!no_video)
-    AutoUpdater::start();
+  // Auto-updater disabled (quadra.googlecode.com is no longer accessible)
+  // if(!no_video)
+  //   AutoUpdater::start();
 
 	Executor menu;
 	//Add Menu_intro so we get back there after -connect, -server or -play
