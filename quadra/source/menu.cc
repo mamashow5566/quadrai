@@ -1444,7 +1444,7 @@ Menu_intro::~Menu_intro() {
 }
 
 Menu_main::Menu_main():
-	version_warning(false)
+	version_warning(false), b_logo(NULL)
 {
   {
     Res_doze res(res_debuto_png);
