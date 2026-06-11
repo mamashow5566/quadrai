@@ -16,6 +16,7 @@ var Config = struct {
 	DataDir      string
 	Debug        int
 	Port         string
+	PublicIP     string
 	ScoresToKeep int
 	Timeout      int
 }{
@@ -38,11 +39,13 @@ func main() {
 	port := flag.String("port", "3456", "Port to listen on")
 	debug := flag.Int("debug", 0, "Debug level (0=off, 1=on)")
 	logfile := flag.String("logfile", "", "Access log file path (default: stderr only)")
+	publicip := flag.String("public-ip", "", "Public IP to advertise (replaces private LAN IPs in game listings)")
 	flag.Parse()
 
 	Config.DataDir, _ = filepath.Abs(*datadir)
 	Config.Port = *port
 	Config.Debug = *debug
+	Config.PublicIP = *publicip
 
 	// env override for debug
 	if Config.Debug == 0 && os.Getenv("DEBUG") != "" {
