@@ -30,10 +30,9 @@ func LoadPerlDumper(filePath string, dest interface{}) error {
 	content := string(data)
 	// Strip Perl variable declaration
 	content = strings.TrimPrefix(content, "$VAR1 = ")
-	// Remove trailing semicolon
-	content = strings.TrimSuffix(content, ";")
-	// Remove trailing newline after last }
+	// Trim whitespace first, then remove trailing semicolon
 	content = strings.TrimSpace(content)
+	content = strings.TrimSuffix(content, ";")
 	// Convert Perl => to JSON :
 	content = strings.ReplaceAll(content, "=>", ":")
 	// Convert Perl single-quoted strings to JSON double-quoted
