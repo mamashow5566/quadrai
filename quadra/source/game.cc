@@ -25,6 +25,7 @@
 #endif
 
 #include <string.h>
+#include <stdio.h>
 #include "input.h"
 #include "net.h"
 #include "qserv.h"
@@ -754,6 +755,58 @@ bool Game::verifygameinfo(const Dict *sum) const
 	return true;
 }
 
+// Detect public IP using a simple blocking HTTP GET to ifconfig.co
+static bool detect_public_ip(char* out, int maxlen) {
+#ifdef WIN32
+	SOCKET sock = socket(AF_INET, SOCK_STREAM, 0);
+	if(sock == INVALID_SOCKET) return false;
+
+	struct hostent* he = gethostbyname("ifconfig.co");
+	if(!he) { closesocket(sock); return false; }
+
+	struct sockaddr_in addr;
+	memset(&addr, 0, sizeof(addr));
+	addr.sin_family = AF_INET;
+	addr.sin_port = htons(80);
+	memcpy(&addr.sin_addr, he->h_addr_list[0], he->h_length);
+
+	int timeout = 3000;
+	setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&timeout, sizeof(timeout));
+	setsockopt(sock, SOL_SOCKET, SO_SNDTIMEO, (const char*)&timeout, sizeof(timeout));
+
+	if(connect(sock, (struct sockaddr*)&addr, sizeof(addr)) != 0) {
+		closesocket(sock);
+		return false;
+	}
+
+	const char* req = "GET / HTTP/1.0\r\nHost: ifconfig.co\r\nUser-Agent: Quadra\r\n\r\n";
+	send(sock, req, (int)strlen(req), 0);
+
+	char buf[512] = {0};
+	int n = recv(sock, buf, sizeof(buf) - 1, 0);
+	closesocket(sock);
+	if(n <= 0) return false;
+
+	// Find end of HTTP headers
+	char* body = strstr(buf, "\r\n\r\n");
+	if(!body) return false;
+	body += 4;
+	while(*body == ' ' || *body == '\r' || *body == '\n') body++;
+
+	// Extract IP
+	char* end = body;
+	while(*end && *end != '\r' && *end != '\n' && *end != ' ') end++;
+	*end = '\0';
+
+	if(strlen(body) == 0 || strlen(body) >= (size_t)maxlen) return false;
+	strncpy(out, body, maxlen);
+	return true;
+#else
+	(void)out; (void)maxlen;
+	return false;
+#endif
+}
+
 void Game::buildgameinfo(const char* cmd) {
 	gameinfo->add_data(cmd);
 	Textbuf tb;
@@ -777,10 +830,27 @@ void Game::sendgameinfo(bool quit) {
 		delete gameinfo;
 		gameinfo = NULL;
 	} else {
-		if(quit)
+		if(quit) {
 			buildgameinfo("deletegame\n");
-		else
-			buildgameinfo("postgame\n");
+		} else {
+			// Detect public IP and include in postgame (so remote clients can reach us)
+			static char cached_public_ip[64] = "";
+			static bool ip_checked = false;
+			if(!ip_checked) {
+				ip_checked = true;
+				char ip[64] = "";
+				if(detect_public_ip(ip, sizeof(ip))) {
+					strncpy(cached_public_ip, ip, sizeof(cached_public_ip) - 1);
+					skelton_msgbox("Game::sendgameinfo: detected public IP %s\n", cached_public_ip);
+				}
+			}
+			gameinfo->add_data("postgame\n");
+			if(cached_public_ip[0])
+				gameinfo->add_data("info/remoteaddr %s\n", cached_public_ip);
+			Textbuf tb;
+			addgameinfo(&tb);
+			gameinfo->add_data(tb.get());
+		}
 		gameinfo->send();
 	}
 }

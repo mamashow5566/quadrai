@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"net"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -377,11 +376,10 @@ func tweak(r *http.Request, params map[string]interface{}) {
 	// Strip IPv6 brackets: [::1] -> ::1
 	ip = strings.TrimPrefix(ip, "[")
 	ip = strings.TrimSuffix(ip, "]")
-	// Override private LAN IP with public IP if configured
-	if Config.PublicIP != "" && isPrivateIP(ip) {
-		ip = Config.PublicIP
+	// Only set remoteaddr if the client didn't provide one (e.g. LAN host)
+	if _, alreadySet := getParam(params, "info/remoteaddr"); !alreadySet {
+		setParam(params, "info/remoteaddr", ip)
 	}
-	setParam(params, "info/remoteaddr", ip)
 	
 	// 處理 port
 	port := "3456" // 預設值
@@ -433,19 +431,4 @@ func getParam(params map[string]interface{}, key string) (interface{}, bool) {
 	}
 	val, ok := m[keys[len(keys)-1]]
 	return val, ok
-}
-
-// isPrivateIP checks if an IPv4 address is in a private/RFC1918 range
-func isPrivateIP(ip string) bool {
-	parsed := net.ParseIP(ip)
-	if parsed == nil {
-		return false
-	}
-	ip4 := parsed.To4()
-	if ip4 == nil {
-		return false
-	}
-	return ip4[0] == 10 ||
-		(ip4[0] == 172 && ip4[1] >= 16 && ip4[1] <= 31) ||
-		(ip4[0] == 192 && ip4[1] == 168)
 }
