@@ -202,7 +202,7 @@ void Qserv::create_req()
   if(!defaulturl.getPort())
     defaulturl.setPort(80);
   if(!strcmp(defaulturl.getHost(), ""))
-    defaulturl.setHost("quadra.sourceforge.net:80");
+    defaulturl.setHost("quadra.bearmeta.io:80");
   if(!strcmp(defaulturl.getPath(), "/"))
     defaulturl.setPath("/cgi-bin/qserv.pl");
 
