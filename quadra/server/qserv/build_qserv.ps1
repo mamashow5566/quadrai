@@ -10,6 +10,10 @@ $outputDir = './output'
 $buildOutput = 'qserv_x64.exe'
 $packageName = 'qserv_portable'
 
+# Kill any running qserv (to unlock binary)
+Get-Process -Name qserv_x64 -ErrorAction SilentlyContinue | Stop-Process -Force
+Start-Sleep -Seconds 1
+
 # Clean
 if (Test-Path $outputDir) {
     Remove-Item $outputDir -Recurse -Force
@@ -50,7 +54,7 @@ New-Item -ItemType Directory -Path "$packageDir/data/scores" -Force | Out-Null
 $lines = @(
     '@echo off',
     'taskkill /f /im qserv_x64.exe 2>nul',
-    '.\qserv_x64.exe --datadir ".\data"',
+    '.\qserv_x64.exe --datadir ".\data" --logfile ".\data\access.log"',
     'pause'
 )
 $lines -join "`r`n" | Set-Content -Path "$packageDir/start.bat" -Encoding ASCII
