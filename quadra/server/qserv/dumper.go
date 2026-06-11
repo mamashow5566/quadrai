@@ -44,13 +44,28 @@ func LoadPerlDumper(filePath string, dest interface{}) error {
 	return json.Unmarshal([]byte(content), dest)
 }
 
-// removeTrailingCommas strips commas before } and ] 
+// removeTrailingCommas strips commas before } and ] (any whitespace between)
 func removeTrailingCommas(s string) string {
-	s = strings.ReplaceAll(s, ", }", " }")
-	s = strings.ReplaceAll(s, ",}", "}")
-	s = strings.ReplaceAll(s, ","+string(rune(10))+"}", string(rune(10))+"}")
-	s = strings.ReplaceAll(s, ","+string(rune(10))+"  }", string(rune(10))+"  }")
-	return s
+	var result strings.Builder
+	result.Grow(len(s))
+	i := 0
+	for i < len(s) {
+		if s[i] == ',' && i+1 < len(s) && s[i+1] == '\n' {
+			// Found ",\n", check if followed by optional whitespace then }
+			j := i + 2
+			for j < len(s) && (s[j] == ' ' || s[j] == '\t') {
+				j++
+			}
+			if j < len(s) && s[j] == '}' {
+				// Trailing comma before }, skip the comma
+				i++ // skip comma, keep the \n and rest
+				continue
+			}
+		}
+		result.WriteByte(s[i])
+		i++
+	}
+	return result.String()
 }
 
 // perlQuotesToJSON converts Perl single-quoted strings to JSON double-quoted
