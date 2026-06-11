@@ -1559,7 +1559,8 @@ void Menu_main::step() {
     call(new Fade_out(pal));
   }
 #ifdef WIN32
-  if(result == b_logo) {
+  // b_logo click disabled
+  if(0 && result == b_logo) {
     call(new Fade_in(pal));
     call(new Menu_internet(ST_HELP20));
     call(new Fade_to(Palette(), pal));
@@ -2165,8 +2166,8 @@ void Menu_internet::init() {
 
 void Menu_internet::step() {
   Menu::step();
-  // SDL_OpenURL disabled - no external links
-  call(new Wait_time(100));
+  // SDL_OpenURL disabled
+  call(new Wait_time(200));
   ret();
 }
 
