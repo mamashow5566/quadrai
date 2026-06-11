@@ -585,6 +585,8 @@ Canvas::step() (由 Net_list_stepper::step_all() 驅動)
 
 ## 10. 建置與執行
 
+> 快速建置請使用 `build.ps1`，詳情參閱 `README.md`。
+
 ### 10.1 Windows (vcpkg)
 
 ```powershell

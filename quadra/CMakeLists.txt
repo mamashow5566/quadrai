@@ -6,7 +6,7 @@ option(PORTABLE_BUILD "Bundle all DLLs for portable distribution (Windows only)"
 option(USE_STATIC_MSVC "Link MSVC runtime statically (/MT)" OFF)
 option(ENABLE_APP_BUNDLE "Build as macOS application bundle" ${APPLE})
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Static MSVC runtime
@@ -27,6 +27,11 @@ configure_file(
 
 # Define HAVE_CONFIG_H for all targets
 add_definitions(-DHAVE_CONFIG_H)
+
+# Fix Boost 1.91 compatibility with MSVC 19.44+ (C++14 for std::snprintf)
+if(MSVC)
+    add_compile_options(/Zc:__cplusplus)
+endif()
 
 # Define DATAGAMESDIR
 add_definitions(-DDATAGAMESDIR=\"${CMAKE_INSTALL_PREFIX}/share/games\")
@@ -408,7 +413,7 @@ if(WIN32 AND PORTABLE_BUILD)
         COMMENT "Creating quadra-portable.zip")
 endif()
 
-# Simple test target
-add_executable(simple_test simple_test.cc)
-target_link_libraries(simple_test ${SDL2_LIBRARIES})
-target_include_directories(simple_test PRIVATE ${SDL2_INCLUDE_DIRS})
+# Simple test target (disabled - source file not available)
+# add_executable(simple_test simple_test.cc)
+# target_link_libraries(simple_test ${SDL2_LIBRARIES})
+# target_include_directories(simple_test PRIVATE ${SDL2_INCLUDE_DIRS})
